@@ -8,11 +8,13 @@
 
 import UIKit
 
-class ViewController: UIViewController {
+class ViewController: UIViewController, UITextFieldDelegate {
 
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
+    
+        loggedIn = false
     }
 
     override func didReceiveMemoryWarning() {
@@ -21,13 +23,72 @@ class ViewController: UIViewController {
     }
 
     @IBOutlet weak var emailTextField: UITextField!
-    
     @IBOutlet weak var passwordTextField: UITextField!
     
+    var loggedIn = false {
+        // when the value of the loggedIn property is changed the following code is execuded
+        didSet {
+            if loggedIn {
+                print("You're logged in!")
+            } else {
+                print("You're not logged in!")
+            }
+        }
+    }
     
     @IBAction func login(_ sender: UIButton) {
-        print("\(emailTextField.text!)")
-        print("\(passwordTextField.text!)")
+        guard let email    = emailTextField.text else { return }
+        guard let password = passwordTextField.text else { return }
+        
+        print("Someone is trying to log in with: \nemail: \(email) and password: \(password)")
+        
+        if email.isValidEmail() {
+            print("You're logged in as \(email)")
+            loggedIn = true
+            emailTextField.text    = ""
+            passwordTextField.text = ""
+        } else {
+            print("Invalid email! Please try again!")
+        }
+        
+    }
+    
+    /// hide keyboard when the login button is pressed
+    ///
+    /// - Parameter sender: login button
+    @IBAction func loginBtnPressed(_ sender: UIButton) {
+        self.emailTextField.resignFirstResponder()
+        self.passwordTextField.resignFirstResponder()
+    }
+    
+    // built in method
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        self.view.endEditing(true)
+    }
+    
+    /// enable Next button on keyboard to go to passwordTextField while editing emailTextField
+    /// enable Done button on the keyboard to hide keyboard while editing passwordTextField
+    ///
+    /// - Parameter textField: current textField we're editing
+    /// - Returns: true because textField should always ...
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        if textField == self.emailTextField {
+            self.passwordTextField.becomeFirstResponder()
+        }
+        if textField == self.passwordTextField {
+            self.passwordTextField.resignFirstResponder()
+        }
+        return true
+    }
+}
+
+extension String {
+    func isValidEmail() -> Bool {
+        // here, `try!` will always succeed because the pattern is valid
+        let validEmailPattern = "[A-Z0-9a-z.-_]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,3}"
+//        let pattern = "^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$"
+        let regex = try! NSRegularExpression(pattern: validEmailPattern, options: .caseInsensitive)
+        return regex.firstMatch(in: self, options: [], range: NSRange(location: 0, length: characters.count)) != nil
     }
 }
 
