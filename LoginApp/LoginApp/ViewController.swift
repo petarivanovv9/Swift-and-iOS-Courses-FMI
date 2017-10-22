@@ -20,6 +20,14 @@ class ViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
 
-
+    @IBOutlet weak var emailTextField: UITextField!
+    
+    @IBOutlet weak var passwordTextField: UITextField!
+    
+    
+    @IBAction func login(_ sender: UIButton) {
+        print("\(emailTextField.text!)")
+        print("\(passwordTextField.text!)")
+    }
 }
 
