@@ -45,12 +45,18 @@ class ViewController: UIViewController, UITextFieldDelegate {
         if email.isValidEmail() {
             print("You're logged in as \(email)")
             loggedIn = true
-            emailTextField.text    = ""
-            passwordTextField.text = ""
+            
+            performSegue(withIdentifier: "loginSegue", sender: self)
         } else {
             print("Invalid email! Please try again!")
         }
         
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        guard let email = emailTextField.text else { return }
+        let secondController = segue.destination as! SecondViewController
+        secondController.loggedInAsString = email
     }
     
     /// hide keyboard when the login button is pressed
