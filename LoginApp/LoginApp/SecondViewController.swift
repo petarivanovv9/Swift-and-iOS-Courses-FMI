@@ -19,7 +19,7 @@ class SecondViewController: UIViewController {
 
         // Do any additional setup after loading the view.
         
-         loggedInLabel.text = "Logged in as \(loggedInAsString)"
+        loggedInLabel.text = "Logged in as \(loggedInAsString)"
     }
 
     override func didReceiveMemoryWarning() {

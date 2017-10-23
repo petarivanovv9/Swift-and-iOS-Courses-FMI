@@ -55,7 +55,6 @@
                                 <connections>
                                     <action selector="login:" destination="BYZ-38-t0r" eventType="touchUpInside" id="SDW-gr-KhE"/>
                                     <action selector="loginBtnPressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="tFk-9O-a4u"/>
-                                    <segue destination="Gtq-7j-F6k" kind="show" identifier="loginSegue" id="gb3-Sw-xE4"/>
                                 </connections>
                             </button>
                             <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="login-user" translatesAutoresizingMaskIntoConstraints="NO" id="PMS-Ui-cWA">
@@ -73,6 +72,7 @@
                     <connections>
                         <outlet property="emailTextField" destination="JI6-OX-h5w" id="rRv-qg-tBf"/>
                         <outlet property="passwordTextField" destination="8sw-Ft-aIQ" id="kx6-xN-Awu"/>
+                        <segue destination="Gtq-7j-F6k" kind="show" identifier="loginSegue" id="YhT-Td-QeS"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
@@ -95,6 +95,9 @@
                                 <state key="normal" title="Log out">
                                     <color key="titleColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 </state>
+                                <connections>
+                                    <segue destination="BYZ-38-t0r" kind="show" id="Yhn-RD-oHE"/>
+                                </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="499-a9-QUk">
                                 <rect key="frame" x="16" y="45" width="343" height="69"/>

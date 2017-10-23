@@ -88,6 +88,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
     }
 }
 
+// copied from the internet
 extension String {
     func isValidEmail() -> Bool {
         // here, `try!` will always succeed because the pattern is valid
