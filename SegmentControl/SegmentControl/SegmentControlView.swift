@@ -37,14 +37,16 @@ class SegmentControlView: UIView {
         return Double((360 * segmentSize)) / 100.0
     }
     
-    private func toRadians(angle: CGFloat) -> CGFloat {
+    private func angleToRadians(angle: CGFloat) -> CGFloat {
         return angle * CGFloat.pi / 180
     }
     
     private func drawSegments() {
-        let colors: [UIColor] = [.purple, .red, .orange, .blue, .green]
+        
+        // set initial settings for the drawing of the path
+        let colors: [UIColor] = [.purple, .red, .orange, .blue, .green] // colors of the segments
         let numberOfSegments = 5
-        let segments: [Int] = [22, 24, 14, 24, 16]
+        let segments: [Int] = [22, 24, 14, 24, 16] // size of the segments, the sum should be 100
         
         var startAngle: CGFloat
         var endAngle: CGFloat
@@ -53,12 +55,13 @@ class SegmentControlView: UIView {
         startAngle = 0
         
         for i in 0..<numberOfSegments {
+            // calculate the new end angle of the path
             endAngle   = startAngle + CGFloat(calculateEndAngle(segmentSize: segments[i]))
             color = colors[i]
             
-            pathForSingleSegment(startAngle: toRadians(angle: startAngle), endAngle: toRadians(angle: endAngle), color: color).stroke()
+            pathForSingleSegment(startAngle: angleToRadians(angle: startAngle), endAngle: angleToRadians(angle: endAngle), color: color).stroke()
             
-            // new params
+            // calculate the new start angle of the path
             startAngle = endAngle
         }
         
@@ -72,7 +75,5 @@ class SegmentControlView: UIView {
     override func draw(_ rect: CGRect) {
         drawSegments()
     }
-    
-    
     
 }
