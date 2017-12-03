@@ -28,6 +28,7 @@ class SegmentControlView: UIView {
         
         color.set()
         path.lineWidth = 50.0
+        path.lineCapStyle = .round
 
         return path
     }
