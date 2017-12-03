@@ -27,7 +27,7 @@ class SegmentControlView: UIView {
                                 clockwise: true)
         
         color.set()
-        path.lineWidth = 50.0
+        path.lineWidth = 60.0
         path.lineCapStyle = .round
 
         return path
@@ -39,6 +39,15 @@ class SegmentControlView: UIView {
     
     private func angleToRadians(angle: CGFloat) -> CGFloat {
         return angle * CGFloat.pi / 180
+    }
+    
+    func getPointOnCircle(radius: CGFloat, center: CGPoint, angle: CGFloat) -> CGPoint {
+        let theta = angle * CGFloat.pi / 180
+
+        let x = radius * CGFloat(cos(theta)) + center.x
+        let y = radius * CGFloat(sin(theta)) + center.y
+        
+        return CGPoint(x: x, y: y)
     }
     
     private func drawSegments() {
@@ -62,12 +71,22 @@ class SegmentControlView: UIView {
             let path = pathForSingleSegment(startAngle: angleToRadians(angle: startAngle), endAngle: angleToRadians(angle: endAngle), color: color)
             
 //            let currentPoint = path.currentPoint
-//            path.move(to: currentPoint)
-//            let number = NSAttributedString(string: String(segments[i]))
             
+            // configure string with attributes
+            let numberString = String(segments[i])
+            let numberStringAttributes = [
+                NSAttributedStringKey.foregroundColor: UIColor.white,
+                NSAttributedStringKey.font: UIFont(name: "Arial", size: 20.0)!
+            ]
+            let numberAttributeString = NSAttributedString(string: numberString, attributes: numberStringAttributes)
+            
+            // calculate the point where the string will be drawed
+            let currentPoint = getPointOnCircle(radius: circleRadius, center: circleCenter, angle: endAngle-30)
+
+            path.move(to: currentPoint)
             path.stroke()
             
-//            number.draw(at: currentPoint)
+            numberAttributeString.draw(at: currentPoint)
             
             // calculate the new start angle of the path
             startAngle = endAngle
@@ -77,7 +96,7 @@ class SegmentControlView: UIView {
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
-        backgroundColor = UIColor.white
+        backgroundColor = UIColor.black
     }
     
     override func draw(_ rect: CGRect) {
