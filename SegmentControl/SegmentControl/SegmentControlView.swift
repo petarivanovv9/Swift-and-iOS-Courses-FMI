@@ -12,16 +12,16 @@ class SegmentControlView: UIView {
     
     private var scale: CGFloat = 0.6
     
-    private var outerCircleRadius: CGFloat {
+    private var circleRadius: CGFloat {
         return min(bounds.size.width, bounds.size.height) / 2 * scale
     }
     
-    private var outerCircleCenter: CGPoint {
+    private var circleCenter: CGPoint {
         return CGPoint(x: bounds.midX, y: bounds.midY)
     }
     
     private func pathForSingleSegment(startAngle: CGFloat, endAngle: CGFloat, color: UIColor) -> UIBezierPath {
-        let path = UIBezierPath(arcCenter: outerCircleCenter, radius: outerCircleRadius,
+        let path = UIBezierPath(arcCenter: circleCenter, radius: circleRadius,
                                 startAngle: startAngle,
                                 endAngle: endAngle,
                                 clockwise: true)
@@ -59,7 +59,15 @@ class SegmentControlView: UIView {
             endAngle   = startAngle + CGFloat(calculateEndAngle(segmentSize: segments[i]))
             color = colors[i]
             
-            pathForSingleSegment(startAngle: angleToRadians(angle: startAngle), endAngle: angleToRadians(angle: endAngle), color: color).stroke()
+            let path = pathForSingleSegment(startAngle: angleToRadians(angle: startAngle), endAngle: angleToRadians(angle: endAngle), color: color)
+            
+//            let currentPoint = path.currentPoint
+//            path.move(to: currentPoint)
+//            let number = NSAttributedString(string: String(segments[i]))
+            
+            path.stroke()
+            
+//            number.draw(at: currentPoint)
             
             // calculate the new start angle of the path
             startAngle = endAngle
@@ -69,7 +77,7 @@ class SegmentControlView: UIView {
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
-        backgroundColor = UIColor.black
+        backgroundColor = UIColor.white
     }
     
     override func draw(_ rect: CGRect) {
